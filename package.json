@@ -24,7 +24,7 @@
   "scripts": {
     "clean": "rimraf dist/ out/ build/ coverage/ .nyc_output/",
     "pretty": "pretty-quick --staged",
-    "pretty-all": "prettier --write ./index.ts ./test/**/*.js ./*.json ./*.yaml ./*.yml",
+    "pretty-all": "prettier --write .src/**/*.ts ./test/**/*.js ./test/**/*.ts ./*.json ./*.yaml ./*.yml",
     "test": "nyc npm run test-only",
     "test-only": "mocha -r ts-node/register ./test/**/*.spec.*",
     "verify": "npm run check && npm run test",
