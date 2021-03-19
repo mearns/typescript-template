@@ -6,8 +6,7 @@ rsync -r \
     --exclude=".git/" \
     --exclude="dist/" \
     --exclude="node_modules/" \
-    --exclude="out/" \
-    --exclude=".nyc_output/" \
-    --exclude="coverage/" \
+    --exclude="reports/" \
+    --exclude="public/" \
     --exclude="copy-template.sh" \
     "$DIR/" "$1"
