@@ -1,3 +1,4 @@
+/* eslint no-warning-comments: off */
 const handlebars = require("handlebars");
 const fs = require("fs");
 const marked = require("marked");
@@ -16,6 +17,7 @@ const contextAsPromised = (async function loadPackageData() {
     /^git\+/,
     ""
   );
+  // TODO: Parse the HTML, look for links to local files, link to the rendered snapshot.
   packageData.readme = marked(
     stripHeader(
       await fs.promises.readFile(
