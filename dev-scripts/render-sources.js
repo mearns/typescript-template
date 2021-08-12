@@ -8,7 +8,7 @@ const lowlight = require("lowlight");
 const KNOWN_EXTENSIONS = {
   ".js": "javascript",
   ".ts": "typescript",
-  ".json": "json"
+  ".json": "json",
 };
 
 function highlightjs(content, language) {
@@ -36,19 +36,19 @@ function higlightCode(content, language) {
     type: "element",
     tagName: "span",
     properties: { className: [] },
-    children: hastNodes
+    children: hastNodes,
   });
   const lines = [];
   if (spans.length) {
     lines.push([]);
-    spans.forEach(span => {
+    spans.forEach((span) => {
       if (span.linebreak) {
         lines.push([]);
       }
       lines[lines.length - 1].push(span);
     });
   }
-  const htmlLines = lines.map(spans => {
+  const htmlLines = lines.map((spans) => {
     if (spans.length === 1 && spans[0].text === "") {
       return "<span>&nbsp;</span>";
     }
@@ -59,12 +59,12 @@ function higlightCode(content, language) {
           ...(classes.length
             ? [
                 ` class="${classes
-                  .map(c => `hljs-${c}`)
+                  .map((c) => `hljs-${c}`)
                   .map(escapeHtml)
-                  .join(" ")}"`
+                  .join(" ")}"`,
               ]
             : []),
-          `>${escapeHtml(text)}</span>`
+          `>${escapeHtml(text)}</span>`,
         ].join("")
       )
       .join("");
@@ -79,12 +79,12 @@ function flattenHastNode(node, classes = []) {
   if (node.type === "text") {
     return node.value
       .split(LINEBREAK_CAPTURE_RE)
-      .filter(p => p.length > 0)
-      .map(p => ({
+      .filter((p) => p.length > 0)
+      .map((p) => ({
         text: p.replace(LINEBREAK_RE, ""),
         linebreak: LINEBREAK_RE.test(p),
         classes: classes,
-        content: p
+        content: p,
       }));
   } else if (node.type === "element") {
     if (node.tagName !== "span") {
@@ -93,7 +93,7 @@ function flattenHastNode(node, classes = []) {
       );
     }
     const childClasses = [...classes, ...(node.properties.className || [])];
-    const children = (node.children || []).map(child =>
+    const children = (node.children || []).map((child) =>
       flattenHastNode(child, childClasses)
     );
     return children.reduce((list, child) => {
@@ -112,7 +112,7 @@ async function main(root, outputDir, outputPrefix) {
   const templateContent = await fs.promises.readFile(templatePath, "utf-8");
   const template = handlebars.compile(templateContent);
 
-  const addPrefix = outputPrefix ? x => path.join(outputPrefix, x) : x => x;
+  const addPrefix = outputPrefix ? (x) => path.join(outputPrefix, x) : (x) => x;
   const stat = await fs.promises.stat(root);
   if (stat.isDirectory()) {
     return processDir(template, root, outputDir, addPrefix, "");
@@ -136,7 +136,7 @@ async function processDir(
   const dirPath = path.resolve(rootDir, relativePath);
   const dirEnts = await fs.promises.readdir(dirPath, {
     withFileTypes: true,
-    encoding: "utf-8"
+    encoding: "utf-8",
   });
   const promiseToGenerateIndex = generateDirIndex(
     rootDir,
@@ -146,7 +146,7 @@ async function processDir(
     dirEnts
   );
   const promiseToRecurse = Promise.all(
-    dirEnts.map(async dirEnt => {
+    dirEnts.map(async (dirEnt) => {
       if (dirEnt.isDirectory()) {
         return processDir(
           template,
@@ -164,6 +164,7 @@ async function processDir(
           path.join(relativePath, dirEnt.name)
         );
       }
+      return null;
     })
   );
   await Promise.all([promiseToGenerateIndex, promiseToRecurse]);
@@ -181,7 +182,7 @@ async function generateDirIndex(
   const outputPath = `${path.resolve(outputDir, addPrefix(relPath))}.html`;
   const dirName = path.basename(outputPath, ".html");
   const contents = `<ul>${dirEnts
-    .map(dirEnt => {
+    .map((dirEnt) => {
       return `<li><a href="${dirName}/${dirEnt.name}.html">${dirEnt.name}</a></li>`;
     })
     .join("\n")}</ul>`;
@@ -202,8 +203,9 @@ async function processFile(template, rootDir, outputDir, addPrefix, relPath) {
         .fill(null)
         .map(
           (_, idx) =>
-            `<a href='#n${idx + 1}'><span id="n${idx +
-              1}" class="linenumber">${idx + 1}</span></a>`
+            `<a href='#n${idx + 1}'><span id="n${idx + 1}" class="linenumber">${
+              idx + 1
+            }</span></a>`
         )
         .join("\n")}</td>
       <td id="highlightedCode">${highlightedLines
@@ -229,7 +231,7 @@ async function processFile(template, rootDir, outputDir, addPrefix, relPath) {
       return `<a href="${escapeHtml(href)}" title="${escapeHtml(
         pathComponents.slice(0, idx + 1).join("/")
       )}">${escapeHtml(p)}</a>`;
-    })
+    }),
   ];
   // TODO: Also add a link to the file in this commit in the repo.
   const output = template({
@@ -240,7 +242,7 @@ async function processFile(template, rootDir, outputDir, addPrefix, relPath) {
     highlightedCode,
     sourceCode,
     lang,
-    ext
+    ext,
   });
   await fs.promises.writeFile(outputPath, output, "utf-8");
   console.log(`Rendered ${relPath} as ${lang} (${outputPath})`);

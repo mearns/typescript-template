@@ -1,7 +1,7 @@
 module.exports = {
   roots: ["test/unit"],
   transform: {
-    "^.+\\.ts$": "ts-jest"
+    "^.+\\.ts$": "ts-jest",
   },
   collectCoverageFrom: ["src/**/*.js", "src/**/*.ts", "test-utils/**/*.js"],
   coverageDirectory: "reports/coverage/",
@@ -12,8 +12,8 @@ module.exports = {
       "jest-junit",
       {
         outputDirectory: "reports",
-        outputName: "xunit.xml"
-      }
+        outputName: "xunit.xml",
+      },
     ],
     [
       "jest-stare",
@@ -23,8 +23,8 @@ module.exports = {
         resultJson: "data.json",
         report: true,
         reportSummary: true,
-        coverageLink: "../coverage/lcov-report/index.html"
-      }
-    ]
-  ]
+        coverageLink: "../coverage/lcov-report/index.html",
+      },
+    ],
+  ],
 };

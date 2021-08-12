@@ -1,3 +1,6 @@
 {
-  "extends": ["mearns/typescript", "mearns/jest"]
+  "extends": [
+    "@bmearns/eslint-config/typescript",
+    "@bmearns/eslint-config/jest"
+  ]
 }

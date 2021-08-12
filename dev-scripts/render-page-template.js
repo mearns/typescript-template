@@ -7,7 +7,7 @@ const packageData = require("../package.json");
 
 function stripHeader(contents) {
   const lines = contents.split(/\r?\n/);
-  const idx = lines.findIndex(line => line.trim() === "---") + 1;
+  const idx = lines.findIndex((line) => line.trim() === "---") + 1;
   return lines.slice(idx).join("\n");
 }
 
@@ -28,7 +28,7 @@ const contextAsPromised = (async function loadPackageData() {
     {
       gfm: true,
       smartLists: true,
-      xhtml: true
+      xhtml: true,
     }
   );
   return packageData;
@@ -39,7 +39,7 @@ async function main() {
     const [, , template] = process.argv;
     const [templateContent, context] = await Promise.all([
       fs.promises.readFile(template, "utf-8"),
-      contextAsPromised
+      contextAsPromised,
     ]);
     console.log(handlebars.compile(templateContent)(context));
   } catch (error) {
