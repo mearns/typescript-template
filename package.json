@@ -28,6 +28,7 @@
     "pretty-all": "prettier --write src/**/*.ts dev-scripts/**/*.js test/**/*.js test/**/*.ts *.json *.yml",
     "test": "jest --coverage",
     "test-only": "jest",
+    "at": "jest --roots acceptance",
     "verify": "npm run check && npm run test",
     "check:readme": "remark --no-stdout README.md",
     "check:code": "eslint ./ test/ --ext .js --ext .ts --format codeframe",
